@@ -2,7 +2,7 @@
   "name": "@google-cloud/eventarc",
   "version": "0.1.0",
   "description": "eventarc client for Node.js",
-  "repository": "googleapis/googleapis/nodejs-eventarc",
+  "repository": "googleapis/nodejs-eventarc",
   "license": "Apache-2.0",
   "author": "Google LLC",
   "main": "build/src/index.js",
