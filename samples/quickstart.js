@@ -13,8 +13,7 @@
 
 'use strict';
 
-async function main() {
-
+async function main(projectId) {
   // [START nodejs_eventarc_quickstart]
   // Imports the Google Cloud client library
 
@@ -26,15 +25,15 @@ async function main() {
   // const projectId = 'my-project'
 
   // Creates a client
-  // eslint-disable-next-line no-unused-vars
-  const client = new {EventarcClient}();
+  const client = new EventarcClient();
 
   //TODO(library generator): write the actual function you will be testing
   async function doSomething() {
-   console.log('DPE! Change this code so that it shows how to use the library! See comments below on structure.')
-   // const [thing] = await client.methodName({
-   // });
-   // console.info(thing);
+    for await (const trigger of await client.listTriggersAsync({
+      parent: client.locationPath(projectId, 'us-central1'),
+    })) {
+      console.info(trigger.name);
+    }
   }
   doSomething();
   // [END nodejs_eventarc_quickstart]
