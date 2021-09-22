@@ -12,26 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 'use strict';
 
-function main(parent, trigger, triggerId, validateOnly) {
-  // [START eventarc_create_trigger_sample]
+function main(validateOnly) {
+  // [START eventarc_update_trigger_sample]
   /**
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  Required. The parent collection in which to add this trigger.
-   */
-  // const parent = 'abc123'
-  /**
-   *  Required. The trigger to create.
+   *  The trigger to be updated.
    */
   // const trigger = ''
   /**
-   *  Required. The user-provided ID to be assigned to the trigger.
+   *  The fields to be updated; only fields explicitly provided will be updated.
+   *  If no field mask is provided, all provided fields in the request will be
+   *  updated. To update all fields, provide a field mask of "*".
    */
-  // const triggerId = 'abc123'
+  // const updateMask = ''
+  /**
+   *  If set to true, and the trigger is not found, a new trigger will be
+   *  created. In this situation, `update_mask` is ignored.
+   */
+  // const allowMissing = true
   /**
    *  Required. If set, validate the request and preview the review, but do not actually
    *  post it.
@@ -44,23 +46,20 @@ function main(parent, trigger, triggerId, validateOnly) {
   // Instantiates a client
   const eventarcClient = new EventarcClient();
 
-  async function createTrigger() {
+  async function updateTrigger() {
     // Construct request
     const request = {
-      parent,
-      trigger,
-      triggerId,
       validateOnly,
     };
 
     // Run request
-    const [operation] = await eventarcClient.createTrigger(request);
+    const [operation] = await eventarcClient.updateTrigger(request);
     const [response] = await operation.promise();
     console.log(response);
   }
 
-  createTrigger();
-  // [END eventarc_create_trigger_sample]
+  updateTrigger();
+  // [END eventarc_update_trigger_sample]
 }
 
 process.on('unhandledRejection', err => {

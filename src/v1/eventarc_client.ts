@@ -421,6 +421,10 @@ export class EventarcClient {
    *   for more details and examples.
    * @example
    * const [response] = await client.getTrigger(request);
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.get_trigger.js</caption>
+   * region_tag:eventarc_get_trigger_sample
+   *
    */
   getTrigger(
     request?: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
@@ -524,6 +528,10 @@ export class EventarcClient {
    * @example
    * const [operation] = await client.createTrigger(request);
    * const [response] = await operation.promise();
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.create_trigger.js</caption>
+   * region_tag:eventarc_create_trigger_sample
+   *
    */
   createTrigger(
     request?: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
@@ -587,6 +595,10 @@ export class EventarcClient {
    * console.log(decodedOperation.result);
    * console.log(decodedOperation.done);
    * console.log(decodedOperation.metadata);
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.create_trigger.js</caption>
+   * region_tag:eventarc_create_trigger_sample
+   *
    */
   async checkCreateTriggerProgress(
     name: string
@@ -675,6 +687,10 @@ export class EventarcClient {
    * @example
    * const [operation] = await client.updateTrigger(request);
    * const [response] = await operation.promise();
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.update_trigger.js</caption>
+   * region_tag:eventarc_update_trigger_sample
+   *
    */
   updateTrigger(
     request?: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
@@ -738,6 +754,10 @@ export class EventarcClient {
    * console.log(decodedOperation.result);
    * console.log(decodedOperation.done);
    * console.log(decodedOperation.metadata);
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.update_trigger.js</caption>
+   * region_tag:eventarc_update_trigger_sample
+   *
    */
   async checkUpdateTriggerProgress(
     name: string
@@ -825,6 +845,10 @@ export class EventarcClient {
    * @example
    * const [operation] = await client.deleteTrigger(request);
    * const [response] = await operation.promise();
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.delete_trigger.js</caption>
+   * region_tag:eventarc_delete_trigger_sample
+   *
    */
   deleteTrigger(
     request?: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
@@ -888,6 +912,10 @@ export class EventarcClient {
    * console.log(decodedOperation.result);
    * console.log(decodedOperation.done);
    * console.log(decodedOperation.metadata);
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.delete_trigger.js</caption>
+   * region_tag:eventarc_delete_trigger_sample
+   *
    */
   async checkDeleteTriggerProgress(
     name: string
@@ -971,6 +999,10 @@ export class EventarcClient {
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
    *   for more details and examples.
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.list_triggers.js</caption>
+   * region_tag:eventarc_list_triggers_sample
+   *
    */
   listTriggers(
     request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
@@ -1045,6 +1077,10 @@ export class EventarcClient {
    *   Please see the
    *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
    *   for more details and examples.
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.list_triggers.js</caption>
+   * region_tag:eventarc_list_triggers_sample
+   *
    */
   listTriggersStream(
     request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
@@ -1058,7 +1094,8 @@ export class EventarcClient {
       gax.routingHeader.fromParams({
         parent: request.parent || '',
       });
-    const callSettings = new gax.CallSettings(options);
+    const defaultCallSettings = this._defaults['listTriggers'];
+    const callSettings = defaultCallSettings.merge(options);
     this.initialize();
     return this.descriptors.page.listTriggers.createStream(
       this.innerApiCalls.listTriggers as gax.GaxCall,
@@ -1104,6 +1141,10 @@ export class EventarcClient {
    * for await (const response of iterable) {
    *   // process response
    * }
+   *
+   * @example <caption>include:samples/generated/v1/eventarc.list_triggers.js</caption>
+   * region_tag:eventarc_list_triggers_sample
+   *
    */
   listTriggersAsync(
     request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
@@ -1118,7 +1159,8 @@ export class EventarcClient {
         parent: request.parent || '',
       });
     options = options || {};
-    const callSettings = new gax.CallSettings(options);
+    const defaultCallSettings = this._defaults['listTriggers'];
+    const callSettings = defaultCallSettings.merge(options);
     this.initialize();
     return this.descriptors.page.listTriggers.asyncIterate(
       this.innerApiCalls['listTriggers'] as GaxCall,

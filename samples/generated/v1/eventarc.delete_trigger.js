@@ -12,18 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 'use strict';
 
-function main(name) {
-  // [START eventarc_get_trigger_sample]
+function main(name, validateOnly) {
+  // [START eventarc_delete_trigger_sample]
   /**
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  Required. The name of the trigger to get.
+   *  Required. The name of the trigger to be deleted.
    */
   // const name = 'abc123'
+  /**
+   *  If provided, the trigger will only be deleted if the etag matches the
+   *  current etag on the resource.
+   */
+  // const etag = 'abc123'
+  /**
+   *  If set to true, and the trigger is not found, the request will succeed
+   *  but no action will be taken on the server.
+   */
+  // const allowMissing = true
+  /**
+   *  Required. If set, validate the request and preview the review, but do not actually
+   *  post it.
+   */
+  // const validateOnly = true
 
   // Imports the Eventarc library
   const {EventarcClient} = require('@google-cloud/eventarc').v1;
@@ -31,19 +45,21 @@ function main(name) {
   // Instantiates a client
   const eventarcClient = new EventarcClient();
 
-  async function getTrigger() {
+  async function deleteTrigger() {
     // Construct request
     const request = {
       name,
+      validateOnly,
     };
 
     // Run request
-    const response = await eventarcClient.getTrigger(request);
+    const [operation] = await eventarcClient.deleteTrigger(request);
+    const [response] = await operation.promise();
     console.log(response);
   }
 
-  getTrigger();
-  // [END eventarc_get_trigger_sample]
+  deleteTrigger();
+  // [END eventarc_delete_trigger_sample]
 }
 
 process.on('unhandledRejection', err => {

@@ -12,34 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 'use strict';
 
-function main(validateOnly) {
-  // [START eventarc_update_trigger_sample]
+function main(name) {
+  // [START eventarc_get_trigger_sample]
   /**
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  The trigger to be updated.
+   *  Required. The name of the trigger to get.
    */
-  // const trigger = ''
-  /**
-   *  The fields to be updated; only fields explicitly provided will be updated.
-   *  If no field mask is provided, all provided fields in the request will be
-   *  updated. To update all fields, provide a field mask of "*".
-   */
-  // const updateMask = ''
-  /**
-   *  If set to true, and the trigger is not found, a new trigger will be
-   *  created. In this situation, `update_mask` is ignored.
-   */
-  // const allowMissing = true
-  /**
-   *  Required. If set, validate the request and preview the review, but do not actually
-   *  post it.
-   */
-  // const validateOnly = true
+  // const name = 'abc123'
 
   // Imports the Eventarc library
   const {EventarcClient} = require('@google-cloud/eventarc').v1;
@@ -47,20 +30,19 @@ function main(validateOnly) {
   // Instantiates a client
   const eventarcClient = new EventarcClient();
 
-  async function updateTrigger() {
+  async function getTrigger() {
     // Construct request
     const request = {
-      validateOnly,
+      name,
     };
 
     // Run request
-    const [operation] = await eventarcClient.updateTrigger(request);
-    const [response] = await operation.promise();
+    const response = await eventarcClient.getTrigger(request);
     console.log(response);
   }
 
-  updateTrigger();
-  // [END eventarc_update_trigger_sample]
+  getTrigger();
+  // [END eventarc_get_trigger_sample]
 }
 
 process.on('unhandledRejection', err => {
