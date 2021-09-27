@@ -12,27 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 'use strict';
 
-function main(validateOnly) {
-  // [START eventarc_v1_generated_Eventarc_UpdateTrigger_async]
+function main(name, validateOnly) {
+  // [START eventarc_v1_generated_Eventarc_DeleteTrigger_async]
   /**
    * TODO(developer): Uncomment these variables before running the sample.
    */
   /**
-   *  The trigger to be updated.
+   *  Required. The name of the trigger to be deleted.
    */
-  // const trigger = ''
+  // const name = 'abc123'
   /**
-   *  The fields to be updated; only fields explicitly provided will be updated.
-   *  If no field mask is provided, all provided fields in the request will be
-   *  updated. To update all fields, provide a field mask of "*".
+   *  If provided, the trigger will only be deleted if the etag matches the
+   *  current etag on the resource.
    */
-  // const updateMask = ''
+  // const etag = 'abc123'
   /**
-   *  If set to true, and the trigger is not found, a new trigger will be
-   *  created. In this situation, `update_mask` is ignored.
+   *  If set to true, and the trigger is not found, the request will succeed
+   *  but no action will be taken on the server.
    */
   // const allowMissing = true
   /**
@@ -47,20 +45,21 @@ function main(validateOnly) {
   // Instantiates a client
   const eventarcClient = new EventarcClient();
 
-  async function updateTrigger() {
+  async function deleteTrigger() {
     // Construct request
     const request = {
+      name,
       validateOnly,
     };
 
     // Run request
-    const [operation] = await eventarcClient.updateTrigger(request);
+    const [operation] = await eventarcClient.deleteTrigger(request);
     const [response] = await operation.promise();
     console.log(response);
   }
 
-  updateTrigger();
-  // [END eventarc_v1_generated_Eventarc_UpdateTrigger_async]
+  deleteTrigger();
+  // [END eventarc_v1_generated_Eventarc_DeleteTrigger_async]
 }
 
 process.on('unhandledRejection', err => {
