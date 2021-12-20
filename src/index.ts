@@ -16,13 +16,12 @@
 // ** https://github.com/googleapis/synthtool **
 // ** All changes to this file may be overwritten. **
 
-import * as publishing from './publishing';
 import * as v1 from './v1';
 
 const EventarcClient = v1.EventarcClient;
 type EventarcClient = v1.EventarcClient;
 
-export {publishing, v1, EventarcClient};
-export default {publishing, v1, EventarcClient};
+export {v1, EventarcClient};
+export default {v1, EventarcClient};
 import * as protos from '../protos/protos';
 export {protos};
