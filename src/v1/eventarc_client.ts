@@ -18,18 +18,10 @@
 
 /* global window */
 import * as gax from 'google-gax';
-import {
-  Callback,
-  CallOptions,
-  Descriptors,
-  ClientOptions,
-  LROperation,
-  PaginationCallback,
-  GaxCall,
-} from 'google-gax';
+import {Callback, CallOptions, Descriptors, ClientOptions, LROperation, PaginationCallback, GaxCall} from 'google-gax';
 
-import {Transform} from 'stream';
-import {RequestType} from 'google-gax/build/src/apitypes';
+import { Transform } from 'stream';
+import { RequestType } from 'google-gax/build/src/apitypes';
 import * as protos from '../../protos/protos';
 import jsonProtos = require('../../protos/protos.json');
 /**
@@ -38,7 +30,7 @@ import jsonProtos = require('../../protos/protos.json');
  * This file defines retry strategy and timeouts for all API methods in this library.
  */
 import * as gapicConfig from './eventarc_client_config.json';
-import {operationsProtos} from 'google-gax';
+import { operationsProtos } from 'google-gax';
 const version = require('../../../package.json').version;
 
 /**
@@ -105,16 +97,11 @@ export class EventarcClient {
   constructor(opts?: ClientOptions) {
     // Ensure that options include all the required fields.
     const staticMembers = this.constructor as typeof EventarcClient;
-    const servicePath =
-      opts?.servicePath || opts?.apiEndpoint || staticMembers.servicePath;
-    this._providedCustomServicePath = !!(
-      opts?.servicePath || opts?.apiEndpoint
-    );
+    const servicePath = opts?.servicePath || opts?.apiEndpoint || staticMembers.servicePath;
+    this._providedCustomServicePath = !!(opts?.servicePath || opts?.apiEndpoint);
     const port = opts?.port || staticMembers.port;
     const clientConfig = opts?.clientConfig ?? {};
-    const fallback =
-      opts?.fallback ??
-      (typeof window !== 'undefined' && typeof window?.fetch === 'function');
+    const fallback = opts?.fallback ?? (typeof window !== 'undefined' && typeof window?.fetch === 'function');
     opts = Object.assign({servicePath, port, clientConfig, fallback}, opts);
 
     // If scopes are unset in options and we're connecting to a non-default endpoint, set scopes just in case.
@@ -132,7 +119,7 @@ export class EventarcClient {
     this._opts = opts;
 
     // Save the auth object to the client, for use by other methods.
-    this.auth = this._gaxGrpc.auth as gax.GoogleAuth;
+    this.auth = (this._gaxGrpc.auth as gax.GoogleAuth);
 
     // Set useJWTAccessWithScope on the auth object.
     this.auth.useJWTAccessWithScope = true;
@@ -146,7 +133,10 @@ export class EventarcClient {
     }
 
     // Determine the client header string.
-    const clientHeader = [`gax/${this._gaxModule.version}`, `gapic/${version}`];
+    const clientHeader = [
+      `gax/${this._gaxModule.version}`,
+      `gapic/${version}`,
+    ];
     if (typeof process !== 'undefined' && 'versions' in process) {
       clientHeader.push(`gl-node/${process.versions.node}`);
     } else {
@@ -154,7 +144,7 @@ export class EventarcClient {
     }
     if (!opts.fallback) {
       clientHeader.push(`grpc/${this._gaxGrpc.grpcVersion}`);
-    } else if (opts.fallback === 'rest') {
+    } else if (opts.fallback === 'rest' ) {
       clientHeader.push(`rest/${this._gaxGrpc.grpcVersion}`);
     }
     if (opts.libName && opts.libVersion) {
@@ -182,11 +172,8 @@ export class EventarcClient {
     // (e.g. 50 results at a time, with tokens to get subsequent
     // pages). Denote the keys used for pagination and results.
     this.descriptors.page = {
-      listTriggers: new this._gaxModule.PageDescriptor(
-        'pageToken',
-        'nextPageToken',
-        'triggers'
-      ),
+      listTriggers:
+          new this._gaxModule.PageDescriptor('pageToken', 'nextPageToken', 'triggers')
     };
 
     const protoFilesRoot = this._gaxModule.protobuf.Root.fromJSON(jsonProtos);
@@ -195,56 +182,42 @@ export class EventarcClient {
     // an Operation object that allows for tracking of the operation,
     // rather than holding a request open.
 
-    this.operationsClient = this._gaxModule
-      .lro({
-        auth: this.auth,
-        grpc: 'grpc' in this._gaxGrpc ? this._gaxGrpc.grpc : undefined,
-      })
-      .operationsClient(opts);
+    this.operationsClient = this._gaxModule.lro({
+      auth: this.auth,
+      grpc: 'grpc' in this._gaxGrpc ? this._gaxGrpc.grpc : undefined
+    }).operationsClient(opts);
     const createTriggerResponse = protoFilesRoot.lookup(
-      '.google.cloud.eventarc.v1.Trigger'
-    ) as gax.protobuf.Type;
+      '.google.cloud.eventarc.v1.Trigger') as gax.protobuf.Type;
     const createTriggerMetadata = protoFilesRoot.lookup(
-      '.google.cloud.eventarc.v1.OperationMetadata'
-    ) as gax.protobuf.Type;
+      '.google.cloud.eventarc.v1.OperationMetadata') as gax.protobuf.Type;
     const updateTriggerResponse = protoFilesRoot.lookup(
-      '.google.cloud.eventarc.v1.Trigger'
-    ) as gax.protobuf.Type;
+      '.google.cloud.eventarc.v1.Trigger') as gax.protobuf.Type;
     const updateTriggerMetadata = protoFilesRoot.lookup(
-      '.google.cloud.eventarc.v1.OperationMetadata'
-    ) as gax.protobuf.Type;
+      '.google.cloud.eventarc.v1.OperationMetadata') as gax.protobuf.Type;
     const deleteTriggerResponse = protoFilesRoot.lookup(
-      '.google.cloud.eventarc.v1.Trigger'
-    ) as gax.protobuf.Type;
+      '.google.cloud.eventarc.v1.Trigger') as gax.protobuf.Type;
     const deleteTriggerMetadata = protoFilesRoot.lookup(
-      '.google.cloud.eventarc.v1.OperationMetadata'
-    ) as gax.protobuf.Type;
+      '.google.cloud.eventarc.v1.OperationMetadata') as gax.protobuf.Type;
 
     this.descriptors.longrunning = {
       createTrigger: new this._gaxModule.LongrunningDescriptor(
         this.operationsClient,
         createTriggerResponse.decode.bind(createTriggerResponse),
-        createTriggerMetadata.decode.bind(createTriggerMetadata)
-      ),
+        createTriggerMetadata.decode.bind(createTriggerMetadata)),
       updateTrigger: new this._gaxModule.LongrunningDescriptor(
         this.operationsClient,
         updateTriggerResponse.decode.bind(updateTriggerResponse),
-        updateTriggerMetadata.decode.bind(updateTriggerMetadata)
-      ),
+        updateTriggerMetadata.decode.bind(updateTriggerMetadata)),
       deleteTrigger: new this._gaxModule.LongrunningDescriptor(
         this.operationsClient,
         deleteTriggerResponse.decode.bind(deleteTriggerResponse),
-        deleteTriggerMetadata.decode.bind(deleteTriggerMetadata)
-      ),
+        deleteTriggerMetadata.decode.bind(deleteTriggerMetadata))
     };
 
     // Put together the default options sent with requests.
     this._defaults = this._gaxGrpc.constructSettings(
-      'google.cloud.eventarc.v1.Eventarc',
-      gapicConfig as gax.ClientConfig,
-      opts.clientConfig || {},
-      {'x-goog-api-client': clientHeader.join(' ')}
-    );
+        'google.cloud.eventarc.v1.Eventarc', gapicConfig as gax.ClientConfig,
+        opts.clientConfig || {}, {'x-goog-api-client': clientHeader.join(' ')});
 
     // Set up a dictionary of "inner API calls"; the core implementation
     // of calling the API is handled in `google-gax`, with this code
@@ -275,39 +248,28 @@ export class EventarcClient {
     // Put together the "service stub" for
     // google.cloud.eventarc.v1.Eventarc.
     this.eventarcStub = this._gaxGrpc.createStub(
-      this._opts.fallback
-        ? (this._protos as protobuf.Root).lookupService(
-            'google.cloud.eventarc.v1.Eventarc'
-          )
-        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        this._opts.fallback ?
+          (this._protos as protobuf.Root).lookupService('google.cloud.eventarc.v1.Eventarc') :
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this._protos as any).google.cloud.eventarc.v1.Eventarc,
-      this._opts,
-      this._providedCustomServicePath
-    ) as Promise<{[method: string]: Function}>;
+        this._opts, this._providedCustomServicePath) as Promise<{[method: string]: Function}>;
 
     // Iterate over each of the methods that the service provides
     // and create an API call method for each.
-    const eventarcStubMethods = [
-      'getTrigger',
-      'listTriggers',
-      'createTrigger',
-      'updateTrigger',
-      'deleteTrigger',
-    ];
+    const eventarcStubMethods =
+        ['getTrigger', 'listTriggers', 'createTrigger', 'updateTrigger', 'deleteTrigger'];
     for (const methodName of eventarcStubMethods) {
       const callPromise = this.eventarcStub.then(
-        stub =>
-          (...args: Array<{}>) => {
-            if (this._terminated) {
-              return Promise.reject('The client has already been closed.');
-            }
-            const func = stub[methodName];
-            return func.apply(stub, args);
-          },
-        (err: Error | null | undefined) => () => {
+        stub => (...args: Array<{}>) => {
+          if (this._terminated) {
+            return Promise.reject('The client has already been closed.');
+          }
+          const func = stub[methodName];
+          return func.apply(stub, args);
+        },
+        (err: Error|null|undefined) => () => {
           throw err;
-        }
-      );
+        });
 
       const descriptor =
         this.descriptors.page[methodName] ||
@@ -356,7 +318,9 @@ export class EventarcClient {
    * @returns {string[]} List of default scopes.
    */
   static get scopes() {
-    return ['https://www.googleapis.com/auth/cloud-platform'];
+    return [
+      'https://www.googleapis.com/auth/cloud-platform'
+    ];
   }
 
   getProjectId(): Promise<string>;
@@ -365,9 +329,8 @@ export class EventarcClient {
    * Return the project ID used by this class.
    * @returns {Promise} A promise that resolves to string containing the project ID.
    */
-  getProjectId(
-    callback?: Callback<string, undefined, undefined>
-  ): Promise<string> | void {
+  getProjectId(callback?: Callback<string, undefined, undefined>):
+      Promise<string>|void {
     if (callback) {
       this.auth.getProjectId(callback);
       return;
@@ -378,674 +341,513 @@ export class EventarcClient {
   // -------------------
   // -- Service calls --
   // -------------------
-  /**
-   * Get a single trigger.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.name
-   *   Required. The name of the trigger to get.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing [Trigger]{@link google.cloud.eventarc.v1.Trigger}.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.get_trigger.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_GetTrigger_async
-   */
+/**
+ * Get a single trigger.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.name
+ *   Required. The name of the trigger to get.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing [Trigger]{@link google.cloud.eventarc.v1.Trigger}.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#regular-methods)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.get_trigger.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_GetTrigger_async
+ */
   getTrigger(
-    request?: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
-    options?: CallOptions
-  ): Promise<
-    [
-      protos.google.cloud.eventarc.v1.ITrigger,
-      protos.google.cloud.eventarc.v1.IGetTriggerRequest | undefined,
-      {} | undefined
-    ]
-  >;
+      request?: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
+      options?: CallOptions):
+      Promise<[
+        protos.google.cloud.eventarc.v1.ITrigger,
+        protos.google.cloud.eventarc.v1.IGetTriggerRequest|undefined, {}|undefined
+      ]>;
   getTrigger(
-    request: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
-    options: CallOptions,
-    callback: Callback<
-      protos.google.cloud.eventarc.v1.ITrigger,
-      protos.google.cloud.eventarc.v1.IGetTriggerRequest | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
-  getTrigger(
-    request: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
-    callback: Callback<
-      protos.google.cloud.eventarc.v1.ITrigger,
-      protos.google.cloud.eventarc.v1.IGetTriggerRequest | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
-  getTrigger(
-    request?: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
-    optionsOrCallback?:
-      | CallOptions
-      | Callback<
+      request: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
+      options: CallOptions,
+      callback: Callback<
           protos.google.cloud.eventarc.v1.ITrigger,
-          protos.google.cloud.eventarc.v1.IGetTriggerRequest | null | undefined,
-          {} | null | undefined
-        >,
-    callback?: Callback<
-      protos.google.cloud.eventarc.v1.ITrigger,
-      protos.google.cloud.eventarc.v1.IGetTriggerRequest | null | undefined,
-      {} | null | undefined
-    >
-  ): Promise<
-    [
-      protos.google.cloud.eventarc.v1.ITrigger,
-      protos.google.cloud.eventarc.v1.IGetTriggerRequest | undefined,
-      {} | undefined
-    ]
-  > | void {
+          protos.google.cloud.eventarc.v1.IGetTriggerRequest|null|undefined,
+          {}|null|undefined>): void;
+  getTrigger(
+      request: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
+      callback: Callback<
+          protos.google.cloud.eventarc.v1.ITrigger,
+          protos.google.cloud.eventarc.v1.IGetTriggerRequest|null|undefined,
+          {}|null|undefined>): void;
+  getTrigger(
+      request?: protos.google.cloud.eventarc.v1.IGetTriggerRequest,
+      optionsOrCallback?: CallOptions|Callback<
+          protos.google.cloud.eventarc.v1.ITrigger,
+          protos.google.cloud.eventarc.v1.IGetTriggerRequest|null|undefined,
+          {}|null|undefined>,
+      callback?: Callback<
+          protos.google.cloud.eventarc.v1.ITrigger,
+          protos.google.cloud.eventarc.v1.IGetTriggerRequest|null|undefined,
+          {}|null|undefined>):
+      Promise<[
+        protos.google.cloud.eventarc.v1.ITrigger,
+        protos.google.cloud.eventarc.v1.IGetTriggerRequest|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers['x-goog-request-params'] =
-      gax.routingHeader.fromParams({
-        name: request.name || '',
-      });
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'name': request.name || '',
+    });
     this.initialize();
     return this.innerApiCalls.getTrigger(request, options, callback);
   }
 
-  /**
-   * Create a new trigger in a particular project and location.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The parent collection in which to add this trigger.
-   * @param {google.cloud.eventarc.v1.Trigger} request.trigger
-   *   Required. The trigger to create.
-   * @param {string} request.triggerId
-   *   Required. The user-provided ID to be assigned to the trigger.
-   * @param {boolean} request.validateOnly
-   *   Required. If set, validate the request and preview the review, but do not actually
-   *   post it.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing
-   *   a long running operation. Its `promise()` method returns a promise
-   *   you can `await` for.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.create_trigger.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_CreateTrigger_async
-   */
+/**
+ * Create a new trigger in a particular project and location.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The parent collection in which to add this trigger.
+ * @param {google.cloud.eventarc.v1.Trigger} request.trigger
+ *   Required. The trigger to create.
+ * @param {string} request.triggerId
+ *   Required. The user-provided ID to be assigned to the trigger.
+ * @param {boolean} request.validateOnly
+ *   Required. If set, validate the request and preview the review, but do not actually
+ *   post it.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing
+ *   a long running operation. Its `promise()` method returns a promise
+ *   you can `await` for.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.create_trigger.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_CreateTrigger_async
+ */
   createTrigger(
-    request?: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
-    options?: CallOptions
-  ): Promise<
-    [
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | undefined,
-      {} | undefined
-    ]
-  >;
+      request?: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
+      options?: CallOptions):
+      Promise<[
+        LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+        protos.google.longrunning.IOperation|undefined, {}|undefined
+      ]>;
   createTrigger(
-    request: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
-    options: CallOptions,
-    callback: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
+      request: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
+      options: CallOptions,
+      callback: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>): void;
   createTrigger(
-    request: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
-    callback: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
+      request: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
+      callback: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>): void;
   createTrigger(
-    request?: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
-    optionsOrCallback?:
-      | CallOptions
-      | Callback<
-          LROperation<
-            protos.google.cloud.eventarc.v1.ITrigger,
-            protos.google.cloud.eventarc.v1.IOperationMetadata
-          >,
-          protos.google.longrunning.IOperation | null | undefined,
-          {} | null | undefined
-        >,
-    callback?: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): Promise<
-    [
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | undefined,
-      {} | undefined
-    ]
-  > | void {
+      request?: protos.google.cloud.eventarc.v1.ICreateTriggerRequest,
+      optionsOrCallback?: CallOptions|Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>,
+      callback?: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>):
+      Promise<[
+        LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+        protos.google.longrunning.IOperation|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers['x-goog-request-params'] =
-      gax.routingHeader.fromParams({
-        parent: request.parent || '',
-      });
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'parent': request.parent || '',
+    });
     this.initialize();
     return this.innerApiCalls.createTrigger(request, options, callback);
   }
-  /**
-   * Check the status of the long running operation returned by `createTrigger()`.
-   * @param {String} name
-   *   The operation name that will be passed.
-   * @returns {Promise} - The promise which resolves to an object.
-   *   The decoded operation object has result and metadata field to get information from.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.create_trigger.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_CreateTrigger_async
-   */
-  async checkCreateTriggerProgress(
-    name: string
-  ): Promise<
-    LROperation<
-      protos.google.cloud.eventarc.v1.Trigger,
-      protos.google.cloud.eventarc.v1.OperationMetadata
-    >
-  > {
-    const request = new operationsProtos.google.longrunning.GetOperationRequest(
-      {name}
-    );
+/**
+ * Check the status of the long running operation returned by `createTrigger()`.
+ * @param {String} name
+ *   The operation name that will be passed.
+ * @returns {Promise} - The promise which resolves to an object.
+ *   The decoded operation object has result and metadata field to get information from.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.create_trigger.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_CreateTrigger_async
+ */
+  async checkCreateTriggerProgress(name: string): Promise<LROperation<protos.google.cloud.eventarc.v1.Trigger, protos.google.cloud.eventarc.v1.OperationMetadata>>{
+    const request = new operationsProtos.google.longrunning.GetOperationRequest({name});
     const [operation] = await this.operationsClient.getOperation(request);
-    const decodeOperation = new gax.Operation(
-      operation,
-      this.descriptors.longrunning.createTrigger,
-      gax.createDefaultBackoffSettings()
-    );
-    return decodeOperation as LROperation<
-      protos.google.cloud.eventarc.v1.Trigger,
-      protos.google.cloud.eventarc.v1.OperationMetadata
-    >;
+    const decodeOperation = new gax.Operation(operation, this.descriptors.longrunning.createTrigger, gax.createDefaultBackoffSettings());
+    return decodeOperation as LROperation<protos.google.cloud.eventarc.v1.Trigger, protos.google.cloud.eventarc.v1.OperationMetadata>;
   }
-  /**
-   * Update a single trigger.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {google.cloud.eventarc.v1.Trigger} request.trigger
-   *   The trigger to be updated.
-   * @param {google.protobuf.FieldMask} request.updateMask
-   *   The fields to be updated; only fields explicitly provided will be updated.
-   *   If no field mask is provided, all provided fields in the request will be
-   *   updated. To update all fields, provide a field mask of "*".
-   * @param {boolean} request.allowMissing
-   *   If set to true, and the trigger is not found, a new trigger will be
-   *   created. In this situation, `update_mask` is ignored.
-   * @param {boolean} request.validateOnly
-   *   Required. If set, validate the request and preview the review, but do not actually
-   *   post it.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing
-   *   a long running operation. Its `promise()` method returns a promise
-   *   you can `await` for.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.update_trigger.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_UpdateTrigger_async
-   */
+/**
+ * Update a single trigger.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {google.cloud.eventarc.v1.Trigger} request.trigger
+ *   The trigger to be updated.
+ * @param {google.protobuf.FieldMask} request.updateMask
+ *   The fields to be updated; only fields explicitly provided will be updated.
+ *   If no field mask is provided, all provided fields in the request will be
+ *   updated. To update all fields, provide a field mask of "*".
+ * @param {boolean} request.allowMissing
+ *   If set to true, and the trigger is not found, a new trigger will be
+ *   created. In this situation, `update_mask` is ignored.
+ * @param {boolean} request.validateOnly
+ *   Required. If set, validate the request and preview the review, but do not actually
+ *   post it.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing
+ *   a long running operation. Its `promise()` method returns a promise
+ *   you can `await` for.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.update_trigger.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_UpdateTrigger_async
+ */
   updateTrigger(
-    request?: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
-    options?: CallOptions
-  ): Promise<
-    [
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | undefined,
-      {} | undefined
-    ]
-  >;
+      request?: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
+      options?: CallOptions):
+      Promise<[
+        LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+        protos.google.longrunning.IOperation|undefined, {}|undefined
+      ]>;
   updateTrigger(
-    request: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
-    options: CallOptions,
-    callback: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
+      request: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
+      options: CallOptions,
+      callback: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>): void;
   updateTrigger(
-    request: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
-    callback: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
+      request: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
+      callback: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>): void;
   updateTrigger(
-    request?: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
-    optionsOrCallback?:
-      | CallOptions
-      | Callback<
-          LROperation<
-            protos.google.cloud.eventarc.v1.ITrigger,
-            protos.google.cloud.eventarc.v1.IOperationMetadata
-          >,
-          protos.google.longrunning.IOperation | null | undefined,
-          {} | null | undefined
-        >,
-    callback?: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): Promise<
-    [
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | undefined,
-      {} | undefined
-    ]
-  > | void {
+      request?: protos.google.cloud.eventarc.v1.IUpdateTriggerRequest,
+      optionsOrCallback?: CallOptions|Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>,
+      callback?: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>):
+      Promise<[
+        LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+        protos.google.longrunning.IOperation|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers['x-goog-request-params'] =
-      gax.routingHeader.fromParams({
-        'trigger.name': request.trigger!.name || '',
-      });
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'trigger.name': request.trigger!.name || '',
+    });
     this.initialize();
     return this.innerApiCalls.updateTrigger(request, options, callback);
   }
-  /**
-   * Check the status of the long running operation returned by `updateTrigger()`.
-   * @param {String} name
-   *   The operation name that will be passed.
-   * @returns {Promise} - The promise which resolves to an object.
-   *   The decoded operation object has result and metadata field to get information from.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.update_trigger.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_UpdateTrigger_async
-   */
-  async checkUpdateTriggerProgress(
-    name: string
-  ): Promise<
-    LROperation<
-      protos.google.cloud.eventarc.v1.Trigger,
-      protos.google.cloud.eventarc.v1.OperationMetadata
-    >
-  > {
-    const request = new operationsProtos.google.longrunning.GetOperationRequest(
-      {name}
-    );
+/**
+ * Check the status of the long running operation returned by `updateTrigger()`.
+ * @param {String} name
+ *   The operation name that will be passed.
+ * @returns {Promise} - The promise which resolves to an object.
+ *   The decoded operation object has result and metadata field to get information from.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.update_trigger.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_UpdateTrigger_async
+ */
+  async checkUpdateTriggerProgress(name: string): Promise<LROperation<protos.google.cloud.eventarc.v1.Trigger, protos.google.cloud.eventarc.v1.OperationMetadata>>{
+    const request = new operationsProtos.google.longrunning.GetOperationRequest({name});
     const [operation] = await this.operationsClient.getOperation(request);
-    const decodeOperation = new gax.Operation(
-      operation,
-      this.descriptors.longrunning.updateTrigger,
-      gax.createDefaultBackoffSettings()
-    );
-    return decodeOperation as LROperation<
-      protos.google.cloud.eventarc.v1.Trigger,
-      protos.google.cloud.eventarc.v1.OperationMetadata
-    >;
+    const decodeOperation = new gax.Operation(operation, this.descriptors.longrunning.updateTrigger, gax.createDefaultBackoffSettings());
+    return decodeOperation as LROperation<protos.google.cloud.eventarc.v1.Trigger, protos.google.cloud.eventarc.v1.OperationMetadata>;
   }
-  /**
-   * Delete a single trigger.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.name
-   *   Required. The name of the trigger to be deleted.
-   * @param {string} request.etag
-   *   If provided, the trigger will only be deleted if the etag matches the
-   *   current etag on the resource.
-   * @param {boolean} request.allowMissing
-   *   If set to true, and the trigger is not found, the request will succeed
-   *   but no action will be taken on the server.
-   * @param {boolean} request.validateOnly
-   *   Required. If set, validate the request and preview the review, but do not actually
-   *   post it.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is an object representing
-   *   a long running operation. Its `promise()` method returns a promise
-   *   you can `await` for.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.delete_trigger.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_DeleteTrigger_async
-   */
+/**
+ * Delete a single trigger.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.name
+ *   Required. The name of the trigger to be deleted.
+ * @param {string} request.etag
+ *   If provided, the trigger will only be deleted if the etag matches the
+ *   current etag on the resource.
+ * @param {boolean} request.allowMissing
+ *   If set to true, and the trigger is not found, the request will succeed
+ *   but no action will be taken on the server.
+ * @param {boolean} request.validateOnly
+ *   Required. If set, validate the request and preview the review, but do not actually
+ *   post it.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is an object representing
+ *   a long running operation. Its `promise()` method returns a promise
+ *   you can `await` for.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.delete_trigger.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_DeleteTrigger_async
+ */
   deleteTrigger(
-    request?: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
-    options?: CallOptions
-  ): Promise<
-    [
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | undefined,
-      {} | undefined
-    ]
-  >;
+      request?: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
+      options?: CallOptions):
+      Promise<[
+        LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+        protos.google.longrunning.IOperation|undefined, {}|undefined
+      ]>;
   deleteTrigger(
-    request: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
-    options: CallOptions,
-    callback: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
+      request: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
+      options: CallOptions,
+      callback: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>): void;
   deleteTrigger(
-    request: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
-    callback: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): void;
+      request: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
+      callback: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>): void;
   deleteTrigger(
-    request?: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
-    optionsOrCallback?:
-      | CallOptions
-      | Callback<
-          LROperation<
-            protos.google.cloud.eventarc.v1.ITrigger,
-            protos.google.cloud.eventarc.v1.IOperationMetadata
-          >,
-          protos.google.longrunning.IOperation | null | undefined,
-          {} | null | undefined
-        >,
-    callback?: Callback<
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | null | undefined,
-      {} | null | undefined
-    >
-  ): Promise<
-    [
-      LROperation<
-        protos.google.cloud.eventarc.v1.ITrigger,
-        protos.google.cloud.eventarc.v1.IOperationMetadata
-      >,
-      protos.google.longrunning.IOperation | undefined,
-      {} | undefined
-    ]
-  > | void {
+      request?: protos.google.cloud.eventarc.v1.IDeleteTriggerRequest,
+      optionsOrCallback?: CallOptions|Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>,
+      callback?: Callback<
+          LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+          protos.google.longrunning.IOperation|null|undefined,
+          {}|null|undefined>):
+      Promise<[
+        LROperation<protos.google.cloud.eventarc.v1.ITrigger, protos.google.cloud.eventarc.v1.IOperationMetadata>,
+        protos.google.longrunning.IOperation|undefined, {}|undefined
+      ]>|void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers['x-goog-request-params'] =
-      gax.routingHeader.fromParams({
-        name: request.name || '',
-      });
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'name': request.name || '',
+    });
     this.initialize();
     return this.innerApiCalls.deleteTrigger(request, options, callback);
   }
-  /**
-   * Check the status of the long running operation returned by `deleteTrigger()`.
-   * @param {String} name
-   *   The operation name that will be passed.
-   * @returns {Promise} - The promise which resolves to an object.
-   *   The decoded operation object has result and metadata field to get information from.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.delete_trigger.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_DeleteTrigger_async
-   */
-  async checkDeleteTriggerProgress(
-    name: string
-  ): Promise<
-    LROperation<
-      protos.google.cloud.eventarc.v1.Trigger,
-      protos.google.cloud.eventarc.v1.OperationMetadata
-    >
-  > {
-    const request = new operationsProtos.google.longrunning.GetOperationRequest(
-      {name}
-    );
+/**
+ * Check the status of the long running operation returned by `deleteTrigger()`.
+ * @param {String} name
+ *   The operation name that will be passed.
+ * @returns {Promise} - The promise which resolves to an object.
+ *   The decoded operation object has result and metadata field to get information from.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#long-running-operations)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.delete_trigger.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_DeleteTrigger_async
+ */
+  async checkDeleteTriggerProgress(name: string): Promise<LROperation<protos.google.cloud.eventarc.v1.Trigger, protos.google.cloud.eventarc.v1.OperationMetadata>>{
+    const request = new operationsProtos.google.longrunning.GetOperationRequest({name});
     const [operation] = await this.operationsClient.getOperation(request);
-    const decodeOperation = new gax.Operation(
-      operation,
-      this.descriptors.longrunning.deleteTrigger,
-      gax.createDefaultBackoffSettings()
-    );
-    return decodeOperation as LROperation<
-      protos.google.cloud.eventarc.v1.Trigger,
-      protos.google.cloud.eventarc.v1.OperationMetadata
-    >;
+    const decodeOperation = new gax.Operation(operation, this.descriptors.longrunning.deleteTrigger, gax.createDefaultBackoffSettings());
+    return decodeOperation as LROperation<protos.google.cloud.eventarc.v1.Trigger, protos.google.cloud.eventarc.v1.OperationMetadata>;
   }
-  /**
-   * List triggers.
-   *
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The parent collection to list triggers on.
-   * @param {number} request.pageSize
-   *   The maximum number of triggers to return on each page.
-   *   Note: The service may send fewer.
-   * @param {string} request.pageToken
-   *   The page token; provide the value from the `next_page_token` field in a
-   *   previous `ListTriggers` call to retrieve the subsequent page.
-   *
-   *   When paginating, all other parameters provided to `ListTriggers` must match
-   *   the call that provided the page token.
-   * @param {string} request.orderBy
-   *   The sorting order of the resources returned. Value should be a comma
-   *   separated list of fields. The default sorting oder is ascending. To specify
-   *   descending order for a field, append a ` desc` suffix; for example:
-   *   `name desc, trigger_id`.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Promise} - The promise which resolves to an array.
-   *   The first element of the array is Array of [Trigger]{@link google.cloud.eventarc.v1.Trigger}.
-   *   The client library will perform auto-pagination by default: it will call the API as many
-   *   times as needed and will merge results from all the pages into this array.
-   *   Note that it can affect your quota.
-   *   We recommend using `listTriggersAsync()`
-   *   method described below for async iteration which you can stop as needed.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
-   *   for more details and examples.
-   */
+ /**
+ * List triggers.
+ *
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The parent collection to list triggers on.
+ * @param {number} request.pageSize
+ *   The maximum number of triggers to return on each page.
+ *   Note: The service may send fewer.
+ * @param {string} request.pageToken
+ *   The page token; provide the value from the `next_page_token` field in a
+ *   previous `ListTriggers` call to retrieve the subsequent page.
+ *
+ *   When paginating, all other parameters provided to `ListTriggers` must match
+ *   the call that provided the page token.
+ * @param {string} request.orderBy
+ *   The sorting order of the resources returned. Value should be a comma
+ *   separated list of fields. The default sorting oder is ascending. To specify
+ *   descending order for a field, append a ` desc` suffix; for example:
+ *   `name desc, trigger_id`.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Promise} - The promise which resolves to an array.
+ *   The first element of the array is Array of [Trigger]{@link google.cloud.eventarc.v1.Trigger}.
+ *   The client library will perform auto-pagination by default: it will call the API as many
+ *   times as needed and will merge results from all the pages into this array.
+ *   Note that it can affect your quota.
+ *   We recommend using `listTriggersAsync()`
+ *   method described below for async iteration which you can stop as needed.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
+ *   for more details and examples.
+ */
   listTriggers(
-    request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
-    options?: CallOptions
-  ): Promise<
-    [
-      protos.google.cloud.eventarc.v1.ITrigger[],
-      protos.google.cloud.eventarc.v1.IListTriggersRequest | null,
-      protos.google.cloud.eventarc.v1.IListTriggersResponse
-    ]
-  >;
+      request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
+      options?: CallOptions):
+      Promise<[
+        protos.google.cloud.eventarc.v1.ITrigger[],
+        protos.google.cloud.eventarc.v1.IListTriggersRequest|null,
+        protos.google.cloud.eventarc.v1.IListTriggersResponse
+      ]>;
   listTriggers(
-    request: protos.google.cloud.eventarc.v1.IListTriggersRequest,
-    options: CallOptions,
-    callback: PaginationCallback<
-      protos.google.cloud.eventarc.v1.IListTriggersRequest,
-      protos.google.cloud.eventarc.v1.IListTriggersResponse | null | undefined,
-      protos.google.cloud.eventarc.v1.ITrigger
-    >
-  ): void;
-  listTriggers(
-    request: protos.google.cloud.eventarc.v1.IListTriggersRequest,
-    callback: PaginationCallback<
-      protos.google.cloud.eventarc.v1.IListTriggersRequest,
-      protos.google.cloud.eventarc.v1.IListTriggersResponse | null | undefined,
-      protos.google.cloud.eventarc.v1.ITrigger
-    >
-  ): void;
-  listTriggers(
-    request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
-    optionsOrCallback?:
-      | CallOptions
-      | PaginationCallback<
+      request: protos.google.cloud.eventarc.v1.IListTriggersRequest,
+      options: CallOptions,
+      callback: PaginationCallback<
           protos.google.cloud.eventarc.v1.IListTriggersRequest,
-          | protos.google.cloud.eventarc.v1.IListTriggersResponse
-          | null
-          | undefined,
-          protos.google.cloud.eventarc.v1.ITrigger
-        >,
-    callback?: PaginationCallback<
-      protos.google.cloud.eventarc.v1.IListTriggersRequest,
-      protos.google.cloud.eventarc.v1.IListTriggersResponse | null | undefined,
-      protos.google.cloud.eventarc.v1.ITrigger
-    >
-  ): Promise<
-    [
-      protos.google.cloud.eventarc.v1.ITrigger[],
-      protos.google.cloud.eventarc.v1.IListTriggersRequest | null,
-      protos.google.cloud.eventarc.v1.IListTriggersResponse
-    ]
-  > | void {
+          protos.google.cloud.eventarc.v1.IListTriggersResponse|null|undefined,
+          protos.google.cloud.eventarc.v1.ITrigger>): void;
+  listTriggers(
+      request: protos.google.cloud.eventarc.v1.IListTriggersRequest,
+      callback: PaginationCallback<
+          protos.google.cloud.eventarc.v1.IListTriggersRequest,
+          protos.google.cloud.eventarc.v1.IListTriggersResponse|null|undefined,
+          protos.google.cloud.eventarc.v1.ITrigger>): void;
+  listTriggers(
+      request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
+      optionsOrCallback?: CallOptions|PaginationCallback<
+          protos.google.cloud.eventarc.v1.IListTriggersRequest,
+          protos.google.cloud.eventarc.v1.IListTriggersResponse|null|undefined,
+          protos.google.cloud.eventarc.v1.ITrigger>,
+      callback?: PaginationCallback<
+          protos.google.cloud.eventarc.v1.IListTriggersRequest,
+          protos.google.cloud.eventarc.v1.IListTriggersResponse|null|undefined,
+          protos.google.cloud.eventarc.v1.ITrigger>):
+      Promise<[
+        protos.google.cloud.eventarc.v1.ITrigger[],
+        protos.google.cloud.eventarc.v1.IListTriggersRequest|null,
+        protos.google.cloud.eventarc.v1.IListTriggersResponse
+      ]>|void {
     request = request || {};
     let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
-    } else {
+    }
+    else {
       options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers['x-goog-request-params'] =
-      gax.routingHeader.fromParams({
-        parent: request.parent || '',
-      });
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'parent': request.parent || '',
+    });
     this.initialize();
     return this.innerApiCalls.listTriggers(request, options, callback);
   }
 
-  /**
-   * Equivalent to `method.name.toCamelCase()`, but returns a NodeJS Stream object.
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The parent collection to list triggers on.
-   * @param {number} request.pageSize
-   *   The maximum number of triggers to return on each page.
-   *   Note: The service may send fewer.
-   * @param {string} request.pageToken
-   *   The page token; provide the value from the `next_page_token` field in a
-   *   previous `ListTriggers` call to retrieve the subsequent page.
-   *
-   *   When paginating, all other parameters provided to `ListTriggers` must match
-   *   the call that provided the page token.
-   * @param {string} request.orderBy
-   *   The sorting order of the resources returned. Value should be a comma
-   *   separated list of fields. The default sorting oder is ascending. To specify
-   *   descending order for a field, append a ` desc` suffix; for example:
-   *   `name desc, trigger_id`.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Stream}
-   *   An object stream which emits an object representing [Trigger]{@link google.cloud.eventarc.v1.Trigger} on 'data' event.
-   *   The client library will perform auto-pagination by default: it will call the API as many
-   *   times as needed. Note that it can affect your quota.
-   *   We recommend using `listTriggersAsync()`
-   *   method described below for async iteration which you can stop as needed.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
-   *   for more details and examples.
-   */
+/**
+ * Equivalent to `method.name.toCamelCase()`, but returns a NodeJS Stream object.
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The parent collection to list triggers on.
+ * @param {number} request.pageSize
+ *   The maximum number of triggers to return on each page.
+ *   Note: The service may send fewer.
+ * @param {string} request.pageToken
+ *   The page token; provide the value from the `next_page_token` field in a
+ *   previous `ListTriggers` call to retrieve the subsequent page.
+ *
+ *   When paginating, all other parameters provided to `ListTriggers` must match
+ *   the call that provided the page token.
+ * @param {string} request.orderBy
+ *   The sorting order of the resources returned. Value should be a comma
+ *   separated list of fields. The default sorting oder is ascending. To specify
+ *   descending order for a field, append a ` desc` suffix; for example:
+ *   `name desc, trigger_id`.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Stream}
+ *   An object stream which emits an object representing [Trigger]{@link google.cloud.eventarc.v1.Trigger} on 'data' event.
+ *   The client library will perform auto-pagination by default: it will call the API as many
+ *   times as needed. Note that it can affect your quota.
+ *   We recommend using `listTriggersAsync()`
+ *   method described below for async iteration which you can stop as needed.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
+ *   for more details and examples.
+ */
   listTriggersStream(
-    request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
-    options?: CallOptions
-  ): Transform {
+      request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
+      options?: CallOptions):
+    Transform{
     request = request || {};
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers['x-goog-request-params'] =
-      gax.routingHeader.fromParams({
-        parent: request.parent || '',
-      });
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'parent': request.parent || '',
+    });
     const defaultCallSettings = this._defaults['listTriggers'];
     const callSettings = defaultCallSettings.merge(options);
     this.initialize();
@@ -1056,53 +858,54 @@ export class EventarcClient {
     );
   }
 
-  /**
-   * Equivalent to `listTriggers`, but returns an iterable object.
-   *
-   * `for`-`await`-`of` syntax is used with the iterable to get response elements on-demand.
-   * @param {Object} request
-   *   The request object that will be sent.
-   * @param {string} request.parent
-   *   Required. The parent collection to list triggers on.
-   * @param {number} request.pageSize
-   *   The maximum number of triggers to return on each page.
-   *   Note: The service may send fewer.
-   * @param {string} request.pageToken
-   *   The page token; provide the value from the `next_page_token` field in a
-   *   previous `ListTriggers` call to retrieve the subsequent page.
-   *
-   *   When paginating, all other parameters provided to `ListTriggers` must match
-   *   the call that provided the page token.
-   * @param {string} request.orderBy
-   *   The sorting order of the resources returned. Value should be a comma
-   *   separated list of fields. The default sorting oder is ascending. To specify
-   *   descending order for a field, append a ` desc` suffix; for example:
-   *   `name desc, trigger_id`.
-   * @param {object} [options]
-   *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
-   * @returns {Object}
-   *   An iterable Object that allows [async iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols).
-   *   When you iterate the returned iterable, each element will be an object representing
-   *   [Trigger]{@link google.cloud.eventarc.v1.Trigger}. The API will be called under the hood as needed, once per the page,
-   *   so you can stop the iteration when you don't need more results.
-   *   Please see the
-   *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
-   *   for more details and examples.
-   * @example <caption>include:samples/generated/v1/eventarc.list_triggers.js</caption>
-   * region_tag:eventarc_v1_generated_Eventarc_ListTriggers_async
-   */
+/**
+ * Equivalent to `listTriggers`, but returns an iterable object.
+ *
+ * `for`-`await`-`of` syntax is used with the iterable to get response elements on-demand.
+ * @param {Object} request
+ *   The request object that will be sent.
+ * @param {string} request.parent
+ *   Required. The parent collection to list triggers on.
+ * @param {number} request.pageSize
+ *   The maximum number of triggers to return on each page.
+ *   Note: The service may send fewer.
+ * @param {string} request.pageToken
+ *   The page token; provide the value from the `next_page_token` field in a
+ *   previous `ListTriggers` call to retrieve the subsequent page.
+ *
+ *   When paginating, all other parameters provided to `ListTriggers` must match
+ *   the call that provided the page token.
+ * @param {string} request.orderBy
+ *   The sorting order of the resources returned. Value should be a comma
+ *   separated list of fields. The default sorting oder is ascending. To specify
+ *   descending order for a field, append a ` desc` suffix; for example:
+ *   `name desc, trigger_id`.
+ * @param {object} [options]
+ *   Call options. See {@link https://googleapis.dev/nodejs/google-gax/latest/interfaces/CallOptions.html|CallOptions} for more details.
+ * @returns {Object}
+ *   An iterable Object that allows [async iteration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols).
+ *   When you iterate the returned iterable, each element will be an object representing
+ *   [Trigger]{@link google.cloud.eventarc.v1.Trigger}. The API will be called under the hood as needed, once per the page,
+ *   so you can stop the iteration when you don't need more results.
+ *   Please see the
+ *   [documentation](https://github.com/googleapis/gax-nodejs/blob/master/client-libraries.md#auto-pagination)
+ *   for more details and examples.
+ * @example <caption>include:samples/generated/v1/eventarc.list_triggers.js</caption>
+ * region_tag:eventarc_v1_generated_Eventarc_ListTriggers_async
+ */
   listTriggersAsync(
-    request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
-    options?: CallOptions
-  ): AsyncIterable<protos.google.cloud.eventarc.v1.ITrigger> {
+      request?: protos.google.cloud.eventarc.v1.IListTriggersRequest,
+      options?: CallOptions):
+    AsyncIterable<protos.google.cloud.eventarc.v1.ITrigger>{
     request = request || {};
     options = options || {};
     options.otherArgs = options.otherArgs || {};
     options.otherArgs.headers = options.otherArgs.headers || {};
-    options.otherArgs.headers['x-goog-request-params'] =
-      gax.routingHeader.fromParams({
-        parent: request.parent || '',
-      });
+    options.otherArgs.headers[
+      'x-goog-request-params'
+    ] = gax.routingHeader.fromParams({
+      'parent': request.parent || '',
+    });
     const defaultCallSettings = this._defaults['listTriggers'];
     const callSettings = defaultCallSettings.merge(options);
     this.initialize();
@@ -1123,7 +926,7 @@ export class EventarcClient {
    * @param {string} location
    * @returns {string} Resource name string.
    */
-  locationPath(project: string, location: string) {
+  locationPath(project:string,location:string) {
     return this.pathTemplates.locationPathTemplate.render({
       project: project,
       location: location,
@@ -1158,7 +961,7 @@ export class EventarcClient {
    * @param {string} project
    * @returns {string} Resource name string.
    */
-  projectPath(project: string) {
+  projectPath(project:string) {
     return this.pathTemplates.projectPathTemplate.render({
       project: project,
     });
@@ -1183,7 +986,7 @@ export class EventarcClient {
    * @param {string} trigger
    * @returns {string} Resource name string.
    */
-  triggerPath(project: string, location: string, trigger: string) {
+  triggerPath(project:string,location:string,trigger:string) {
     return this.pathTemplates.triggerPathTemplate.render({
       project: project,
       location: location,
