@@ -33,7 +33,7 @@ function main(parent, trigger, triggerId, validateOnly) {
    */
   // const triggerId = 'abc123'
   /**
-   *  Required. If set, validate the request and preview the review, but do not actually
+   *  Required. If set, validate the request and preview the review, but do not
    *  post it.
    */
   // const validateOnly = true
