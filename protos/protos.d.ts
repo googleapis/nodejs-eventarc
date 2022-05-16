@@ -512,98 +512,98 @@ export namespace google {
                 namespace Eventarc {
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|getTrigger}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#getTrigger}.
                      * @param error Error, if any
                      * @param [response] Trigger
                      */
                     type GetTriggerCallback = (error: (Error|null), response?: google.cloud.eventarc.v1.Trigger) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|listTriggers}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#listTriggers}.
                      * @param error Error, if any
                      * @param [response] ListTriggersResponse
                      */
                     type ListTriggersCallback = (error: (Error|null), response?: google.cloud.eventarc.v1.ListTriggersResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|createTrigger}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#createTrigger}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type CreateTriggerCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|updateTrigger}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#updateTrigger}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type UpdateTriggerCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|deleteTrigger}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#deleteTrigger}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type DeleteTriggerCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|getChannel}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#getChannel}.
                      * @param error Error, if any
                      * @param [response] Channel
                      */
                     type GetChannelCallback = (error: (Error|null), response?: google.cloud.eventarc.v1.Channel) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|listChannels}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#listChannels}.
                      * @param error Error, if any
                      * @param [response] ListChannelsResponse
                      */
                     type ListChannelsCallback = (error: (Error|null), response?: google.cloud.eventarc.v1.ListChannelsResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|createChannel}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#createChannel}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type CreateChannelCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|updateChannel}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#updateChannel}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type UpdateChannelCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|deleteChannel}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#deleteChannel}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type DeleteChannelCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|getChannelConnection}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#getChannelConnection}.
                      * @param error Error, if any
                      * @param [response] ChannelConnection
                      */
                     type GetChannelConnectionCallback = (error: (Error|null), response?: google.cloud.eventarc.v1.ChannelConnection) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|listChannelConnections}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#listChannelConnections}.
                      * @param error Error, if any
                      * @param [response] ListChannelConnectionsResponse
                      */
                     type ListChannelConnectionsCallback = (error: (Error|null), response?: google.cloud.eventarc.v1.ListChannelConnectionsResponse) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|createChannelConnection}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#createChannelConnection}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
                     type CreateChannelConnectionCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
                     /**
-                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc|deleteChannelConnection}.
+                     * Callback as used by {@link google.cloud.eventarc.v1.Eventarc#deleteChannelConnection}.
                      * @param error Error, if any
                      * @param [response] Operation
                      */
@@ -5664,9 +5664,6 @@ export namespace google {
             /** FieldOptions lazy */
             lazy?: (boolean|null);
 
-            /** FieldOptions unverifiedLazy */
-            unverifiedLazy?: (boolean|null);
-
             /** FieldOptions deprecated */
             deprecated?: (boolean|null);
 
@@ -5703,9 +5700,6 @@ export namespace google {
 
             /** FieldOptions lazy. */
             public lazy: boolean;
-
-            /** FieldOptions unverifiedLazy. */
-            public unverifiedLazy: boolean;
 
             /** FieldOptions deprecated. */
             public deprecated: boolean;
@@ -7508,35 +7502,35 @@ export namespace google {
         namespace Operations {
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|listOperations}.
+             * Callback as used by {@link google.longrunning.Operations#listOperations}.
              * @param error Error, if any
              * @param [response] ListOperationsResponse
              */
             type ListOperationsCallback = (error: (Error|null), response?: google.longrunning.ListOperationsResponse) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|getOperation}.
+             * Callback as used by {@link google.longrunning.Operations#getOperation}.
              * @param error Error, if any
              * @param [response] Operation
              */
             type GetOperationCallback = (error: (Error|null), response?: google.longrunning.Operation) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|deleteOperation}.
+             * Callback as used by {@link google.longrunning.Operations#deleteOperation}.
              * @param error Error, if any
              * @param [response] Empty
              */
             type DeleteOperationCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|cancelOperation}.
+             * Callback as used by {@link google.longrunning.Operations#cancelOperation}.
              * @param error Error, if any
              * @param [response] Empty
              */
             type CancelOperationCallback = (error: (Error|null), response?: google.protobuf.Empty) => void;
 
             /**
-             * Callback as used by {@link google.longrunning.Operations|waitOperation}.
+             * Callback as used by {@link google.longrunning.Operations#waitOperation}.
              * @param error Error, if any
              * @param [response] Operation
              */
