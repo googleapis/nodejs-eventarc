@@ -51,6 +51,12 @@ function main(parent) {
    *  `name desc, trigger_id`.
    */
   // const orderBy = 'abc123'
+  /**
+   *  Filter field. Used to filter the Triggers to be listed. Possible filters
+   *  are described in https://google.aip.dev/160. For example, using
+   *  "?filter=destination:gke" would list only Triggers with a gke destination.
+   */
+  // const filter = 'abc123'
 
   // Imports the Eventarc library
   const {EventarcClient} = require('@google-cloud/eventarc').v1;
