@@ -9526,6 +9526,12 @@
                                 return object;
                             var message = new $root.google.cloud.eventarc.v1.StateCondition();
                             switch (object.code) {
+                            default:
+                                if (typeof object.code === "number") {
+                                    message.code = object.code;
+                                    break;
+                                }
+                                break;
                             case "OK":
                             case 0:
                                 message.code = 0;
@@ -9618,7 +9624,7 @@
                                 object.message = "";
                             }
                             if (message.code != null && message.hasOwnProperty("code"))
-                                object.code = options.enums === String ? $root.google.rpc.Code[message.code] : message.code;
+                                object.code = options.enums === String ? $root.google.rpc.Code[message.code] === undefined ? message.code : $root.google.rpc.Code[message.code] : message.code;
                             if (message.message != null && message.hasOwnProperty("message"))
                                 object.message = message.message;
                             return object;
